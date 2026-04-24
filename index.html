@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Citadel Defense</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style/main.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+  <!-- ══ TITLE SCREEN ══ -->
+  <div id="ts" class="ov ov-dark">
+    <h1 class="cz">CITADEL</h1>
+    <p class="sub">Defense of the Realm</p>
+    <div class="dvd"></div>
+    <div style="width:min(85vw,320px)">
+      <p style="color:var(--dim);font-size:.7rem;letter-spacing:2px;margin:0 0 14px;text-align:center">SELECT MAP</p>
+      <div class="map-grid" id="map-grid"></div>
+      <button class="gbtn" id="btn-start" disabled><span>COMMENCE DEFENSE</span></button>
+      <button class="dbtn" id="btn-lb-ts">🏆 LEADERBOARD</button>
+    </div>
+    <p class="ts-hint">1–5 SELECT TOWER · ESC PAUSE · SPACE NEXT WAVE<br>SCROLL / PINCH TO ZOOM · RIGHT-CLICK CANCEL</p>
+  </div>
+
+  <!-- ══ GAME CANVAS ══ -->
+  <canvas id="gc"></canvas>
+
+  <!-- ══ HUD ══ -->
+  <div id="hud">
+
+    <div id="tp-row">
+      <div style="display:flex;flex-direction:column;gap:5px;pointer-events:none">
+        <div id="stats">
+          <div class="sc"><div class="sl">Gold</div><div class="sv" id="hgold">300</div></div>
+          <div class="sc"><div class="sl">Lives</div><div class="sv hp" id="hlives">20</div></div>
+          <div class="sc"><div class="sl">Wave</div><div class="sv" id="hwave">0/20</div></div>
+          <div class="sc"><div class="sl">Score</div><div class="sv" id="hscore">0</div></div>
+        </div>
+        <div id="xps">
+          <div class="xl">Rank</div>
+          <div id="xpl" style="font-family:'Cinzel',serif;font-size:.7rem;color:var(--ice)">I</div>
+          <div id="xpt"><div id="xpf"></div></div>
+          <div class="xl" id="xpv">0/100</div>
+        </div>
+      </div>
+      <div id="tr">
+        <button id="wbtn">Begin Defense</button>
+        <div id="cr">
+          <button class="cb" id="spdbtn">⚡1×</button>
+          <button class="cb" id="psbtn">⏸</button>
+          <button class="cb" id="lbbtn">🏆</button>
+        </div>
+        <div id="wi"></div>
+      </div>
+    </div>
+
+    <div id="wb"></div>
+    <div id="wbonus"><div class="bt">WAVE CLEARED</div><div class="bg" id="wbamt">+0G</div></div>
+
+    <!-- Tower info panel -->
+    <div id="tip">
+      <div id="tiph"><span id="tipn">Tower</span><span id="tipl">LVL 1</span></div>
+      <div id="tipb">
+        <div class="ir"><span>Power</span><span class="iv" id="tpwr">—</span></div>
+        <div class="ir"><span>Range</span><span class="iv" id="trng">—</span></div>
+        <div class="ir"><span>Speed</span><span class="iv" id="tspd">—</span></div>
+        <div class="ir" id="tspecr"><span id="tspecl">Special</span><span class="iv" id="tspecv">—</span></div>
+        <div class="tpdiv"></div>
+        <button class="tpbtn" id="tipupg">⬆ Upgrade (<span id="tupc">—</span>G)</button>
+        <button class="tpbtn" id="tipsel">✕ Sell (+<span id="tsv">—</span>G)</button>
+      </div>
+      <button id="tipcl">✕ CLOSE</button>
+    </div>
+
+    <div id="combo"><div id="combon">x0</div><div id="combol">Combo Kill</div></div>
+
+    <!-- Bottom bar -->
+    <div id="bot">
+      <div id="mbar">
+        <div class="ml">♪</div>
+        <div class="mn" id="mname">—</div>
+        <button class="mibtn" id="mprev">⏮</button>
+        <button class="mibtn" id="mplay">⏸</button>
+        <button class="mibtn" id="mnext">⏭</button>
+        <input type="range" id="mvol" min="0" max="1" step=".05" value=".5">
+      </div>
+      <div id="tbar">
+        <button class="tb" data-t="ARCHER"    style="--tg:#e8c840"><span class="hk">1</span><span class="ti">🏹</span><span class="tc">50G</span><span class="tn">Sentry</span></button>
+        <button class="tb" data-t="BLAST"     style="--tg:#e74c3c"><span class="hk">2</span><span class="ti">💥</span><span class="tc">110G</span><span class="tn">Mortar</span></button>
+        <button class="tb" data-t="FROST"     style="--tg:#5dade2"><span class="hk">3</span><span class="ti">❄️</span><span class="tc">85G</span><span class="tn">Cryo</span></button>
+        <button class="tb lk" data-t="POISON"    style="--tg:#58d68d" data-ul="3"><span class="hk">4</span><span class="ti">☠️</span><span class="tc">130G</span><span class="tn">Plague</span><div class="unh">Rank III</div></button>
+        <button class="tb lk" data-t="LIGHTNING" style="--tg:#f39c12" data-ul="5"><span class="hk">5</span><span class="ti">⚡</span><span class="tc">200G</span><span class="tn">Tesla</span><div class="unh">Rank V</div></button>
+      </div>
+    </div>
+
+    <div id="mm"><canvas id="mmc" width="88" height="88"></canvas></div>
+    <div id="mhelp">TAP tile → place · TAP tower → select</div>
+  </div>
+
+  <div id="toast"></div>
+
+  <!-- ══ PAUSE MENU ══ -->
+  <div id="pmenu" class="ov ov-dark" style="display:none">
+    <div class="ov-panel">
+      <h1 class="cz" style="color:var(--gold);font-size:1.8rem">PAUSED</h1>
+      <div class="pstats">
+        <div class="psc"><div class="psv" id="psw">0</div><div class="psl">Wave</div></div>
+        <div class="psc"><div class="psv" id="pss">0</div><div class="psl">Score</div></div>
+        <div class="psc"><div class="psv" id="psk">0</div><div class="psl">Kills</div></div>
+      </div>
+      <div class="dvd"></div>
+      <p style="color:var(--dim);font-size:.68rem;letter-spacing:2px;margin:0 0 12px">SETTINGS</p>
+      <div class="srow"><span class="slbl">Shadows</span>    <label class="tog"><input type="checkbox" id="os" checked><div class="togtr"></div><div class="togth"></div></label></div>
+      <div class="srow"><span class="slbl">Particles</span>  <label class="tog"><input type="checkbox" id="op" checked><div class="togtr"></div><div class="togth"></div></label></div>
+      <div class="srow"><span class="slbl">Atmosphere</span> <label class="tog"><input type="checkbox" id="oa" checked><div class="togtr"></div><div class="togth"></div></label></div>
+      <div class="srow"><span class="slbl">Float Text</span> <label class="tog"><input type="checkbox" id="of" checked><div class="togtr"></div><div class="togth"></div></label></div>
+      <div class="srow"><span class="slbl">Quality</span>
+        <select class="qsel" id="oq">
+          <option value="1">LOW</option>
+          <option value="1.5">MED</option>
+          <option value="2" selected>HIGH</option>
+        </select>
+      </div>
+      <div style="margin-top:14px;display:flex;flex-direction:column;gap:6px">
+        <button class="gbtn" id="resumebtn"><span>RESUME</span></button>
+        <button class="dbtn"  id="restartpbtn">RESTART</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ LEADERBOARD ══ -->
+  <div id="lbm" class="ov ov-dark" style="display:none">
+    <div class="ov-panel">
+      <h1 class="cz">🏆 LEADERBOARD</h1>
+      <div class="lb-tabs" id="lbtabs"></div>
+      <div class="lbtbody" id="lbbody"></div>
+      <div style="margin-top:14px"><button class="gbtn" id="lbclose"><span>CLOSE</span></button></div>
+    </div>
+  </div>
+
+  <!-- ══ GAME OVER ══ -->
+  <div id="gov" class="ov" style="display:none;background:radial-gradient(circle,rgba(8,0,0,.97) 0%,rgba(2,0,0,1) 100%)">
+    <div class="ov-panel">
+      <h1 class="cz" id="gotitle" style="font-size:clamp(1.5rem,5vw,2.8rem)">FALLEN</h1>
+      <div class="dvd"></div>
+      <div id="gonf" style="display:none">
+        <p style="color:var(--dim);font-size:.68rem;letter-spacing:2px;margin:0 0 7px">ENTER NAME FOR LEADERBOARD</p>
+        <input id="goname" type="text" maxlength="16" placeholder="Your name..." autocomplete="off"
+          style="width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);color:#fff;font-family:'Rajdhani',sans-serif;font-size:.95rem;padding:7px 4px;outline:none;letter-spacing:2px;margin-bottom:10px;text-align:center">
+      </div>
+      <p class="fst">Wave <span id="gow">0</span> · <span id="gok">0</span> kills · Score <span id="gos">0</span></p>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <button class="gbtn" id="gosubmit"><span>SUBMIT & RESTART</span></button>
+        <button class="dbtn"  id="goskip">RESTART WITHOUT SAVING</button>
+        <button class="dbtn"  id="golb">VIEW LEADERBOARD</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SCRIPTS (load order matters) ══ -->
+  <script src="js/config/maps.js"></script>
+  <script src="js/config/towers.js"></script>
+  <script src="js/config/waves.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/audio/sfx.js"></script>
+  <script src="js/audio/music.js"></script>
+  <script src="js/engine/renderer.js"></script>
+  <script src="js/engine/map.js"></script>
+  <script src="js/engine/minimap.js"></script>
+  <script src="js/entities/Bullet.js"></script>
+  <script src="js/entities/Enemy.js"></script>
+  <script src="js/entities/Tower.js"></script>
+  <script src="js/systems/particles.js"></script>
+  <script src="js/systems/waves.js"></script>
+  <script src="js/systems/input.js"></script>
+  <script src="js/ui/hud.js"></script>
+  <script src="js/ui/panels.js"></script>
+  <script src="js/ui/leaderboard.js"></script>
+  <script src="js/engine/loop.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
