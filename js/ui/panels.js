@@ -1,7 +1,7 @@
 // js/ui/panels.js
 'use strict';
 
-// ── Tower Info Panel ─────────────────────────────────────────────
+//  Tower Info Panel 
 
 function openPanel(tower) {
   State.selTower   = tower;
@@ -45,7 +45,7 @@ function closePanel() {
   document.getElementById('tip').classList.remove('open');
 }
 
-// ── Pause Menu ───────────────────────────────────────────────────
+//  Pause Menu 
 
 function togglePause() {
   if (State.gState === 'PLAYING') {
@@ -60,7 +60,7 @@ function togglePause() {
   }
 }
 
-// ── Game Over ────────────────────────────────────────────────────
+//  Game Over 
 
 function gameOver(victory = false) {
   if (State.gState === 'OVER') return;

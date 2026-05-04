@@ -1,7 +1,7 @@
 // js/entities/Enemy.js
 'use strict';
 
-// ── Shared geometries (one per type, never recreated) ────────────
+//  Shared geometries (one per type, never recreated) 
 const _ENEMY_GEOS = {
   BOSS:      new THREE.OctahedronGeometry(1),
   MINI_BOSS: new THREE.OctahedronGeometry(1),

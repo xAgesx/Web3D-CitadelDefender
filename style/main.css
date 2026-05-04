@@ -22,7 +22,7 @@ body {
   width: 100dvw;
 }
 
-/* ── OVERLAYS ── */
+/*  OVERLAYS  */
 .ov { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 200; pointer-events: auto; }
 .ov-dark { background: radial-gradient(ellipse at 50% 35%, rgba(13,21,64,.9) 0%, rgba(5,7,15,.97) 70%); }
 .ov-panel { background: var(--panel); border: 1px solid var(--border); padding: 28px 32px; width: min(92vw, 440px); text-align: center; max-height: 90dvh; overflow-y: auto; }
@@ -59,7 +59,7 @@ h1.cz { font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 4px; mar
 @keyframes bonusPop { 0% { opacity:0; transform:translate(-50%,-65%); } 14% { opacity:1; transform:translate(-50%,-50%); } 80% { opacity:1; } 100% { opacity:0; transform:translate(-50%,-38%); } }
 @keyframes floatUp  { 0% { opacity:1; transform:translate(-50%,-50%); } 100% { opacity:0; transform:translate(-50%,-140%); } }
 
-/* ── TITLE ── */
+/*  TITLE  */
 #ts { gap: 0; }
 #ts h1 { color: var(--gold); font-size: clamp(2rem, 7vw, 4.8rem); animation: gpulse 3s ease-in-out infinite; }
 #ts .sub { font-size: .8rem; letter-spacing: 7px; color: var(--dim); margin: 8px 0 28px; text-transform: uppercase; }
@@ -80,10 +80,10 @@ h1.cz { font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 4px; mar
 .map-diff.hard      { color: var(--danger); }
 .map-diff.nightmare { color: #cc00ff; }
 
-/* ── CANVAS ── */
+/*  CANVAS  */
 #gc { position: fixed; inset: 0; display: none; }
 
-/* ── HUD ── */
+/*  HUD  */
 #hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; display: none; }
 
 /* Top row */
@@ -133,7 +133,7 @@ h1.cz { font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 4px; mar
 #wbonus .bg { font-size: 1.6rem; font-family: 'Cinzel', serif; color: var(--success); }
 .ft { position: fixed; font-family: 'Cinzel', serif; font-weight: 700; pointer-events: none; z-index: 30; animation: floatUp .95s ease-out forwards; font-size: .75rem; }
 
-/* ── TOWER INFO PANEL ── */
+/*  TOWER INFO PANEL  */
 #tip { position: fixed; right: 0; top: 50%; transform: translateY(-50%) translateX(250px); width: 210px; background: var(--panel); border: 1px solid var(--border); border-right: none; backdrop-filter: blur(14px); pointer-events: auto; transition: transform .38s cubic-bezier(.19,1,.22,1); z-index: 15; }
 #tip.open { transform: translateY(-50%) translateX(0); }
 #tiph { background: rgba(232,200,64,.06); padding: 11px 13px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
@@ -152,7 +152,7 @@ h1.cz { font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 4px; mar
 #tipcl { width: 100%; background: none; border: none; border-top: 1px solid var(--border); color: var(--dim); cursor: pointer; font-size: .68rem; letter-spacing: 2px; padding: 7px; font-family: 'Rajdhani', sans-serif; text-transform: uppercase; transition: color .18s; }
 #tipcl:hover { color: #fff; }
 
-/* ── BOTTOM BAR ── */
+/*  BOTTOM BAR  */
 #bot { position: fixed; bottom: 0; left: 0; right: 0; padding: 0 6px 8px; pointer-events: none; display: flex; flex-direction: column; align-items: center; gap: 5px; }
 #tbar { display: flex; gap: 5px; padding: 7px 10px; background: var(--panel); border: 1px solid var(--border); backdrop-filter: blur(10px); pointer-events: auto; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 #tbar::-webkit-scrollbar { display: none; }
@@ -201,7 +201,7 @@ h1.cz { font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 4px; mar
 /* Mobile help hint */
 #mhelp { display: none; position: fixed; bottom: 96px; right: 8px; background: var(--panel); border: 1px solid var(--border); padding: 5px 8px; font-size: .55rem; color: var(--dim); letter-spacing: 1px; pointer-events: none; z-index: 15; }
 
-/* ── PAUSE MENU ── */
+/*  PAUSE MENU  */
 .pstats { display: flex; gap: 14px; margin: 14px 0 0; justify-content: center; flex-wrap: wrap; }
 .psc { text-align: center; }
 .psv { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--gold); }
@@ -218,7 +218,7 @@ h1.cz { font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 4px; mar
 .qsel { background: transparent; border: 1px solid var(--border); color: #fff; padding: 3px 7px; font-size: .68rem; font-family: 'Rajdhani', sans-serif; cursor: pointer; }
 .qsel option { background: #080c1a; }
 
-/* ── LEADERBOARD ── */
+/*  LEADERBOARD  */
 .lb-tabs { display: flex; gap: 0; margin: 14px 0 0; border-bottom: 1px solid var(--border); }
 .lbtab { flex: 1; padding: 7px 4px; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--dim); cursor: pointer; font-size: .65rem; letter-spacing: 1.5px; text-transform: uppercase; font-family: 'Rajdhani', sans-serif; font-weight: 700; transition: all .2s; text-align: center; }
 .lbtab.active { color: var(--gold); border-bottom-color: var(--gold); }
@@ -238,7 +238,7 @@ h1.cz { font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 4px; mar
 .fst { color: var(--dim); font-size: .75rem; letter-spacing: 1.5px; margin: 0 0 18px; }
 .fst span { color: #fff; font-weight: 700; }
 
-/* ── RESPONSIVE ── */
+/*  RESPONSIVE  */
 @media (max-width: 580px) {
   .sc { padding: 6px 9px; }
   .sv { font-size: .92rem; }

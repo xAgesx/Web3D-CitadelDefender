@@ -6,9 +6,9 @@ function initRenderer() {
 
   State.renderer = new THREE.WebGLRenderer({
     canvas: document.getElementById('gc'),
-    antialias: false,              // off by default — biggest single GPU win
+    antialias: false,        
     powerPreference: 'high-performance',
-    stencil: false,                // not needed
+    stencil: false,                
     depth: true,
   });
   State.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -32,8 +32,7 @@ function initRenderer() {
   State.orbit.dampingFactor  = 0.07;
   State.orbit.touches        = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
 
-  // Minimal lighting — one sun (shadow), one ambient, no fill
-  const amb = new THREE.AmbientLight(mapCfg.ambLight, 0.7); // boosted to compensate for no fill
+  const amb = new THREE.AmbientLight(mapCfg.ambLight, 5); 
   State.scene.add(amb);
 
   State.sun = new THREE.DirectionalLight(mapCfg.sunColor, 1.0);
@@ -49,7 +48,6 @@ function initRenderer() {
   }
   State.scene.add(State.sun);
 
-  // Ghost placement indicator
   State.ghost = new THREE.Mesh(
     new THREE.BoxGeometry(2, 0.22, 2),
     new THREE.MeshBasicMaterial({ color: 0x55ffaa, transparent: true, opacity: 0.3 })
@@ -57,7 +55,6 @@ function initRenderer() {
   State.ghost.visible = false;
   State.scene.add(State.ghost);
 
-  // Raycaster + mouse
   State.ray   = new THREE.Raycaster();
   State.mouse = new THREE.Vector2();
 

@@ -1,8 +1,6 @@
 // js/ui/leaderboard.js
 'use strict';
 
-// ── Persistence (online + localStorage fallback) ─────────────────
-
 const LB = (() => {
   const LOCAL_KEY    = 'citadel_lb_v4_';
   const BIN_KEY_PRE  = 'citadel_bin_';
@@ -10,7 +8,7 @@ const LB = (() => {
 
   let _cache = {};
 
-  // -- localStorage helpers
+  //localStorage
   function _localGet(mapId) {
     try { return JSON.parse(localStorage.getItem(LOCAL_KEY + mapId) || '[]'); }
     catch { return []; }
@@ -20,7 +18,7 @@ const LB = (() => {
     catch {}
   }
 
-  // -- jsonbin helpers
+  //jsonbin helpers
   function _getBinId(mapId) { return localStorage.getItem(BIN_KEY_PRE + mapId) || null; }
   function _setBinId(mapId, id) { localStorage.setItem(BIN_KEY_PRE + mapId, id); }
 
@@ -29,6 +27,7 @@ const LB = (() => {
     if (!binId) return null;
     try {
       const r = await fetch(`${API_BASE}/${binId}/latest`);
+      console.log(r)
       if (!r.ok) return null;
       const j = await r.json();
       return j.record?.scores || null;
@@ -47,7 +46,6 @@ const LB = (() => {
         });
       } catch {}
     } else {
-      // Create a new public bin for this map
       try {
         const r = await fetch(API_BASE, {
           method: 'POST',
@@ -62,7 +60,7 @@ const LB = (() => {
     }
   }
 
-  // -- Public API
+  // API
   async function get(mapId) {
     if (_cache[mapId]) return _cache[mapId];
     const online = await _fetchOnline(mapId);
@@ -89,7 +87,7 @@ const LB = (() => {
   return { get, add, isTopScore };
 })();
 
-// ── Leaderboard UI ───────────────────────────────────────────────
+//  Leaderboard UI 
 
 let _lbActiveMap = null;
 

@@ -56,7 +56,6 @@ function _updateParticles() {
 }
 
 function _updateAtmosphere(t) {
-  // Every 4 frames — cheap enough
   if (State.frameN % 4 !== 0) return;
   const T  = t * 0.001;
   const wi = State.worldItems;
@@ -67,11 +66,9 @@ function _updateAtmosphere(t) {
 }
 
 function _updateSky(t) {
-  // Every 8 frames — imperceptible at 60fps
   if (State.frameN % 8 !== 0) return;
   const T = t * 0.001;
   State.sun.intensity = 0.62 + Math.sin(T * 0.042) * 0.16;
-  // Reuse preallocated colors
   _SKY_BASE.set(State.mapCfg.skyColor);
   _SKY_COLOR.copy(_SKY_BASE).lerp(_SKY_DARK, Math.abs(Math.sin(T * 0.02)) * 0.12);
   State.scene.background = _SKY_COLOR;
@@ -86,7 +83,6 @@ function _updateShake() {
   }
 }
 
-// Ghost raycast — only when actively placing, throttled to every 2 frames
 function _updateGhost() {
   if (!State.activeType) { State.ghost.visible = false; return; }
   if (State.frameN % 2 !== 0) return;

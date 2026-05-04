@@ -30,9 +30,7 @@ function initInput() {
   document.getElementById('restartpbtn').addEventListener('click',  () => location.reload());
   ['os','op','oa','of','oq'].forEach(id => document.getElementById(id).addEventListener('change', _applySettings));
 
-  // Leaderboard
-  document.getElementById('lbclose').addEventListener('click',   closeLeaderboard);
-  document.getElementById('btn-lb-ts').addEventListener('click', () => openLeaderboard());
+  // Leaderboard (in-game btn — close and title-screen btn wired in main.js)
 
   // Game over
   document.getElementById('gosubmit').addEventListener('click', _onGoSubmit);
@@ -46,7 +44,7 @@ function initInput() {
   document.getElementById('mvol').addEventListener('input',   e  => Music.setVolume(parseFloat(e.target.value)));
 }
 
-// ── Pointer / Click ─────────────────────────────────────────────
+//  Pointer / Click 
 function _onPointer(e) {
   if (State.gState !== 'PLAYING') return;
   // Ignore clicks that started on the HUD layer (but not the canvas itself)
@@ -80,7 +78,7 @@ function _onRightClick(e) {
   document.querySelectorAll('.tb').forEach(b => b.classList.remove('active'));
 }
 
-// ── Keyboard ────────────────────────────────────────────────────
+//  Keyboard 
 const _TOWER_KEYS = ['ARCHER', 'BLAST', 'FROST', 'POISON', 'LIGHTNING'];
 
 function _onKey(e) {
@@ -112,7 +110,7 @@ function _onKey(e) {
   }
 }
 
-// ── Tower placement ─────────────────────────────────────────────
+//  Tower placement 
 function _tryPlaceTower() {
   const hits = State.ray.intersectObjects(State.buildable);
   if (!hits.length) return;
@@ -144,7 +142,7 @@ function _trySelectTower() {
   else     closePanel();
 }
 
-// ── Tower bar ───────────────────────────────────────────────────
+//  Tower bar 
 function _onTowerBtnClick(e, btn) {
   e.stopPropagation();
   if (btn.classList.contains('lk')) return;
@@ -180,7 +178,7 @@ function _previewTowerData(name, lvl, dmg, range, rate) {
   document.getElementById('tip').classList.add('open');
 }
 
-// ── Tower panel actions ─────────────────────────────────────────
+//  Tower panel actions 
 function _onUpgrade() {
   if (!State.selTower) return;
   if (State.selTower.upgrade()) openPanel(State.selTower);
@@ -199,7 +197,7 @@ function _onSell() {
   closePanel();
 }
 
-// ── Speed toggle ────────────────────────────────────────────────
+//  Speed toggle 
 function _cycleSpeed() {
   const speeds  = [1, 2, 3];
   const labels  = ['⚡1×', '⚡2×', '⚡3×'];
@@ -207,7 +205,7 @@ function _cycleSpeed() {
   document.getElementById('spdbtn').textContent = labels[speeds.indexOf(State.gSpeed)];
 }
 
-// ── Settings ────────────────────────────────────────────────────
+//  Settings 
 function _applySettings() {
   State.OPT.shadows    = document.getElementById('os').checked;
   State.OPT.particles  = document.getElementById('op').checked;
@@ -220,7 +218,7 @@ function _applySettings() {
   State.worldItems.forEach(i => i.mesh.visible = State.OPT.atmosphere);
 }
 
-// ── Game over handlers ───────────────────────────────────────────
+//  Game over handlers 
 async function _onGoSubmit() {
   const name = document.getElementById('goname').value || 'Anonymous';
   if (State.selectedMapId) await LB.add(State.selectedMapId, name, State.score, State.wave);

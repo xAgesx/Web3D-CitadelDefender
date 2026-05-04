@@ -9,14 +9,14 @@ const HUD = (() => {
 
   let _toastTimer = null;
 
-  // ── Gold ──────────────────────────────────────────────
+  //  Gold 
   function addGold(v) {
     State.gold += v;
     document.getElementById('hgold').textContent = State.gold;
     _refreshTowerButtons();
   }
 
-  // ── Lives ─────────────────────────────────────────────
+  //  Lives 
   function addLives(v) {
     State.lives = Math.max(0, State.lives + v);
     const el    = document.getElementById('hlives');
@@ -25,14 +25,14 @@ const HUD = (() => {
     if (State.lives <= 0) gameOver();
   }
 
-  // ── Score ─────────────────────────────────────────────
+  //  Score 
   function addScore(v) {
     State.score += v;
     const s = State.score;
     document.getElementById('hscore').textContent = s > 999 ? Math.floor(s / 1000) + 'k' : s;
   }
 
-  // ── XP / Rank ─────────────────────────────────────────
+  //  XP / Rank 
   function addXP(v) {
     State.xp += v;
     const need = XP_TABLE[State.rank] || 9999;
@@ -49,7 +49,7 @@ const HUD = (() => {
     document.getElementById('xpv').textContent  = State.xp + '/' + next;
   }
 
-  // ── Tower button states ───────────────────────────────
+  //  Tower button states 
   function _refreshTowerButtons() {
     document.querySelectorAll('.tb:not(.lk)').forEach(b => {
       b.style.opacity = State.gold >= TOWER_DEFS[b.dataset.t].cost ? '1' : '.38';
@@ -65,7 +65,7 @@ const HUD = (() => {
     });
   }
 
-  // ── Toast notification ────────────────────────────────
+  //  Toast notification 
   function toast(msg, type = 'err') {
     const el      = document.getElementById('toast');
     el.textContent = msg;
@@ -74,7 +74,7 @@ const HUD = (() => {
     _toastTimer = setTimeout(() => el.className = '', 2000);
   }
 
-  // ── Initial HUD sync from state ───────────────────────
+  //  Initial HUD sync from state 
   function syncFromState() {
     document.getElementById('hgold').textContent  = State.gold;
     document.getElementById('hlives').textContent = State.lives;
