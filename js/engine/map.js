@@ -51,10 +51,8 @@ function initMap() {
     }
   }
 
-  // Castle
   _buildCastle();
 
-  // Spawn + goal rings
   const spawnRing = new THREE.Mesh(
     new THREE.RingGeometry(1, 1.35, 12),
     new THREE.MeshBasicMaterial({ color: 0xe74c3c, transparent: true, opacity: 0.38, side: THREE.DoubleSide })
@@ -72,7 +70,6 @@ function initMap() {
   goalRing.position.set(cx, 0.4, cz);
   scene.add(goalRing);
 
-  // Atmosphere particles
   if (OPT.atmosphere) _buildAtmosphere();
 }
 

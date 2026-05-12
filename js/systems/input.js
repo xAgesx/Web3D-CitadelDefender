@@ -7,6 +7,7 @@ function initInput() {
   window.addEventListener('contextmenu', _onRightClick);
   window.addEventListener('keydown',     _onKey);
 
+  
   // Tower bar clicks
   document.querySelectorAll('.tb').forEach(btn => {
     btn.addEventListener('click',       e => _onTowerBtnClick(e, btn));
@@ -30,7 +31,6 @@ function initInput() {
   document.getElementById('restartpbtn').addEventListener('click',  () => location.reload());
   ['os','op','oa','of','oq'].forEach(id => document.getElementById(id).addEventListener('change', _applySettings));
 
-  // Leaderboard (in-game btn — close and title-screen btn wired in main.js)
 
   // Game over
   document.getElementById('gosubmit').addEventListener('click', _onGoSubmit);
@@ -47,7 +47,6 @@ function initInput() {
 //  Pointer / Click 
 function _onPointer(e) {
   if (State.gState !== 'PLAYING') return;
-  // Ignore clicks that started on the HUD layer (but not the canvas itself)
   if (e.target.closest('#hud') && e.target.id !== 'gc') return;
   if (e.button !== undefined && e.button !== 0) return;
 
@@ -110,7 +109,6 @@ function _onKey(e) {
   }
 }
 
-//  Tower placement 
 function _tryPlaceTower() {
   const hits = State.ray.intersectObjects(State.buildable);
   if (!hits.length) return;
